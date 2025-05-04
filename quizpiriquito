@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosso Momento Especial</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fef4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        h1, h2 {
+            color: #c74dff;
+        }
+        .quiz-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px auto;
+            width: 80%;
+            max-width: 600px;
+        }
+        .question {
+            font-size: 1.2em;
+            margin: 20px 0;
+        }
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+        .options li {
+            margin: 10px 0;
+        }
+        .btn {
+            background-color: #c74dff;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #9b2cbf;
+        }
+        .message {
+            font-size: 1.2em;
+            margin-top: 30px;
+            color: #c74dff;
+            display: none; /* Esconde a mensagem inicialmente */
+        }
+        .moments {
+            margin: 30px auto;
+            width: 80%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+        }
+        audio {
+            display: none;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Nosso Momento Especial</h1>
+
+    <!-- Áudio de fundo -->
+    <audio autoplay loop>
+        <source src="snap.mp3" type="audio/mpeg">
+        Seu navegador não suporta áudio.
+    </audio>
+
+    <div class="moments">
+        <h2>Momentos Especiais</h2>
+        <p><strong>12/06/2022:</strong> Quando pedi você em namoro.</p>
+        <p><strong>12/07/2022:</strong> Quando te dei a aliança, em um momento tão importante para nós.</p>
+    </div>
+
+    <div class="quiz-container" id="quiz-container">
+        <h2>Quiz: O que você lembra?</h2>
+        <form id="quizForm">
+            <div id="question1" class="question">
+                <p>1. Qual o nome do nosso beijo?</p>
+                <ul class="options">
+                    <li><input type="radio" name="q1" value="Beijo do amor"> Beijo do amor</li>
+                    <li><input type="radio" name="q1" value="Beijo da paixão"> Beijo da paixão</li>
+                </ul>
+                <button type="button" class="btn" onclick="submitAnswer(1)">Próxima</button>
+            </div>
+        </form>
+    </div>
+
+    <div id="final-message" class="message hidden">
+        <p>Será que você aceitaria correr 5km comigo e, depois, tomarmos um café em outra cidade? Só você e eu, curtindo cada momento. Te amo, minha gordinha ❤️</p>
+    </div>
+
+    <script>
+        const correctAnswers = {
+            q1: 'Beijo do amor',
+            q2: 'Shopping',
+            q3: 'Piriquito',
+            q4: 'Snap',
+            q5: 'Escola'
+        };
+
+        let currentQuestion = 1;
+        let score = 0;
+        const totalQuestions = 5;
+
+        function submitAnswer(questionNumber) {
+            const selectedOption = document.querySelector(`input[name="q${questionNumber}"]:checked`);
+            
+            if (!selectedOption) {
+                alert("Por favor, escolha uma resposta.");
+                return;
+            }
+
+            const answer = selectedOption.value;
+            const correctAnswer = correctAnswers[`q${questionNumber}`];
+
+            if (answer === correctAnswer) {
+                alert("Resposta correta!");
+                score++;
+            } else {
+                alert(`Resposta errada! A resposta correta era: ${correctAnswer}`);
+            }
+
+            // Esconder a pergunta atual
+            document.getElementById(`question${questionNumber}`).style.display = "none";
+            
+            // Mostrar a próxima pergunta ou finalizar
+            if (currentQuestion < totalQuestions) {
+                currentQuestion++;
+                showQuestion(currentQuestion);
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function showQuestion(questionNumber) {
+            const questionDiv = document.createElement('div');
+            questionDiv.classList.add('question');
+            questionDiv.id = `question${questionNumber}`;
+
+            let questionContent = '';
+
+            switch (questionNumber) {
+                case 2:
+                    questionContent = `
+                        <p>2. Onde foi nosso primeiro beijo?</p>
+                        <ul class="options">
+                            <li><input type="radio" name="q2" value="Shopping"> Shopping</li>
+                            <li><input type="radio" name="q2" value="Cinema"> Cinema</li>
+                        </ul>
+                        <button type="button" class="btn" onclick="submitAnswer(2)">Próxima</button>
+                    `;
+                    break;
+                case 3:
+                    questionContent = `
+                        <p>3. Qual apelido você me dava?</p>
+                        <ul class="options">
+                            <li><input type="radio" name="q3" value="Piriquito"> Piriquito</li>
+                            <li><input type="radio" name="q3" value="Bicho da seda"> Bicho da seda</li>
+                        </ul>
+                        <button type="button" class="btn" onclick="submitAnswer(3)">Próxima</button>
+                    `;
+                    break;
+                case 4:
+                    questionContent = `
+                        <p>4. Qual era nossa música?</p>
+                        <ul class="options">
+                            <li><input type="radio" name="q4" value="Snap"> Snap</li>
+                            <li><input type="radio" name="q4" value="Só Quero Colo de Menina"> Só Quero Colo de Menina</li>
+                        </ul>
+                        <button type="button" class="btn" onclick="submitAnswer(4)">Próxima</button>
+                    `;
+                    break;
+                case 5:
+                    questionContent = `
+                        <p>5. Onde a gente se conheceu?</p>
+                        <ul class="options">
+                            <li><input type="radio" name="q5" value="Escola"> Escola</li>
+                            <li><input type="radio" name="q5" value="Trabalho"> Trabalho</li>
+                            <li><input type="radio" name="q5" value="Festa"> Festa</li>
+                        </ul>
+                        <button type="button" class="btn" onclick="submitAnswer(5)">Finalizar</button>
+                    `;
+                    break;
+            }
+
+            questionDiv.innerHTML = questionContent;
+            document.getElementById('quiz-container').appendChild(questionDiv);
+        }
+
+        function finishQuiz() {
+            if (score === totalQuestions) {
+                // Todas respostas corretas
+                document.getElementById('final-message').classList.remove('hidden');
+                alert("Parabéns! Você acertou todas as questões! ❤️");
+            } else {
+                alert(`Você completou o quiz! Acertou ${score} de ${totalQuestions} questões. Tente novamente para ver a mensagem especial!`);
+                // Opcional: recarregar a página para tentar novamente
+                setTimeout(() => {
+                    location.reload();
+                }, 3000);
+            }
+        }
+
+        // Iniciar com a primeira pergunta
+        showQuestion(1);
+    </script>
+
+</body>
+</html>
